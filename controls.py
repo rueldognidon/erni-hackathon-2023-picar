@@ -99,8 +99,9 @@ async def websocket_listener():
         
         say_text('Control Script Connected')
         print('Connected to ' + uri)
-        websocket_receiver( websocket)
-        websocket_sender( websocket)
+        recevier = asyncio.create_task(websocket_receiver( websocket))
+        sender = asyncio.create_task(websocket_sender( websocket))
+        await asyncio.gather(sender, recevier)
 
 def cmd_say( command):
     text = command['text']
