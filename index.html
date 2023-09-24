@@ -1,27 +1,184 @@
 <html>
-    <body>
+    <head>
         <script>
+
+            var wsUri="wss://sx5ivtfpjl.execute-api.ap-southeast-1.amazonaws.com/production";
+            var websocket = new WebSocket(wsUri);
+
+            websocket.onopen = function(evt) { onOpen(evt) };
+            websocket.onmessage = function(evt) { onMessage(evt) };
+            websocket.onerror = function(evt) { onError(evt) };
+
             function test(){
                 document.getElementById("demo").innerHTML = "Hello";
             }
+
+            async function sleep(msec) {
+                return new Promise(resolve => setTimeout(resolve, msec * 1000));
+            }
+
+            async function auto(){
+                forward();
+                await sleep(0.9);
+                fleft();
+                await sleep(1.15);
+                forward();
+                await sleep(3.2);
+                fright();
+                await sleep(2.2);
+                forward();
+                await sleep(1);
+                // forward();
+                // await sleep(1000);
+                // fleft();
+                // await sleep(1000);
+                // forward();
+                // await sleep(1000);
+                // fleft();
+                // await sleep(1000);
+                // forward();
+                // await sleep(1000);
+                // fright();
+                // await sleep(1000);
+                // forward();
+                // await sleep(1000);
+                stop();
+            }
+
+            function forward(){
+                websocket.send(JSON.stringify({
+                    action:"sendCommandToRaspberryPI",
+                    command:'{"operation":"set_speed","speed":10}'
+                }));
+                websocket.send(JSON.stringify({
+                    action:"sendCommandToRaspberryPI",
+                    command:'{"operation":"set_direction","angle":0}'
+                }));
+            }
+
+            function fright(){
+                websocket.send(JSON.stringify({
+                    action:"sendCommandToRaspberryPI",
+                    command:'{"operation":"set_speed","speed":10}'
+                }));
+                websocket.send(JSON.stringify({
+                    action:"sendCommandToRaspberryPI",
+                    command:'{"operation":"set_direction","angle":20}'
+                }));
+
+            }
+            function fleft(){
+                websocket.send(JSON.stringify({
+                    action:"sendCommandToRaspberryPI",
+                    command:'{"operation":"set_speed","speed":10}'
+                }));
+                websocket.send(JSON.stringify({
+                    action:"sendCommandToRaspberryPI",
+                    command:'{"operation":"set_direction","angle":-20}'
+                }));
+            }
+
+            function backward(){
+                websocket.send(JSON.stringify({
+                    action:"sendCommandToRaspberryPI",
+                    command:'{"operation":"set_speed","speed":-10}'
+                }));
+                websocket.send(JSON.stringify({
+                    action:"sendCommandToRaspberryPI",
+                    command:'{"operation":"set_direction","angle":0}'
+                }));
+            }
+
+            function bright(){
+                websocket.send(JSON.stringify({
+                    action:"sendCommandToRaspberryPI",
+                    command:'{"operation":"set_speed","speed":-10}'
+                }));
+                websocket.send(JSON.stringify({
+                    action:"sendCommandToRaspberryPI",
+                    command:'{"operation":"set_direction","angle":20}'
+                }));
+            }
+            function bleft(){
+                websocket.send(JSON.stringify({
+                    action:"sendCommandToRaspberryPI",
+                    command:'{"operation":"set_speed","speed":-10}'
+                }));
+                websocket.send(JSON.stringify({
+                    action:"sendCommandToRaspberryPI",
+                    command:'{"operation":"set_direction","angle":-20}'
+                }));
+            }
+            
+            function stop(){
+                websocket.send(JSON.stringify({
+                    action:"sendCommandToRaspberryPI",
+                    command:'{"operation":"set_speed","speed":0}'
+                }));
+                websocket.send(JSON.stringify({
+                    action:"sendCommandToRaspberryPI",
+                    command:'{"operation":"set_direction","angle":0}'
+                }));
+            }
+            function onOpen() {
+                console.log("connected to url");
+                websocket.send("Hello");
+                //  writeToScreen("Connected to " + wsUri);
+            }
+
+            function onMessage(evt) {
+                document.getElementById("demo").innerHTML = evt.data;
+            }
+
+            function onError(evt) {
+                document.getElementById("demo").innerHTML = evt.data;
+            } 
+
+            function onClose(evt)
+            {
+                console.log("Disconnected");
+            }
         </script>
-        <iframe src="https://viewer.millicast.com?streamId=2Mb6tU/ephpicar&play=false&volume=false&fullscreen=false&pip=false&cast=false&liveBadge=false&userCount=false&disableSettings=true" allowfullscreen width="640" height="480"></iframe>
-        <div id="demo"></div>
+    </head>
+    <body style="background-color: #222;">
         <table>
             <tr>
-                <td><input type="button" value="FL"/></td>
-                <td><input type="button" value="F" onclick="test()"/></td>
-                <td><input type="button" value="FR"/></td>
+                <td style="width: 25%"></td>
+                <td style="width: 50%"><iframe src="https://viewer.millicast.com?streamId=2Mb6tU/ephpicar&play=false&volume=false&fullscreen=false&pip=false&cast=false&liveBadge=false&userCount=false&disableSettings=true" allowfullscreen width="640" height="480"></iframe></td>
+                <td style="width: 25%"></td>
             </tr>
             <tr>
                 <td></td>
-                <td><input type="button" value="S"/></td>
+                <td><div id="demo" style="color: white; align-content: center;"></div></td>
                 <td></td>
             </tr>
             <tr>
-                <td><input type="button" value="BL"/></td>
-                <td><input type="button" value="B"/></td>
-                <td><input type="button" value="BR"/></td>
+                <td></td>
+                <td>
+                    <table style="margin:auto;">
+                        <tr>
+                            <td><input type="button" value="FL" onclick="fleft()"/></td>
+                            <td><input type="button" value="F" onclick="forward()"/></td>
+                            <td><input type="button" value="FR" onclick="fright()"/></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><input type="button" value="S" onclick="stop()"/></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><input type="button" value="BL" onclick="bleft()"/></td>
+                            <td><input type="button" value="B" onclick="backward()"/></td>
+                            <td><input type="button" value="BR" onclick="bright()"/></td>
+                        </tr>
+                    </table>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="button" value="auto" onclick="auto()"/></td>
+                <td></td>
             </tr>
         </table>
     </body>
