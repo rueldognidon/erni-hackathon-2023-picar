@@ -86,8 +86,8 @@ def run_event_loop():
         # Handle other exceptions not specifically caught above
         print(f"An exception occurred: {str(e)}")
         tts_robot.say( str(e))
-    finally:
-        run_event_loop()
+    # finally:
+    #     run_event_loop()
 
 def startup_action():
     tts_robot.say( 'States waking up!')
