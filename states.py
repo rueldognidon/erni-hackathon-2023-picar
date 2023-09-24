@@ -47,8 +47,14 @@ async def websocket_listener():
                     "distance" : distance,
                     "grayscale" : grayscale
                 }
-                print(f"Sending: {json.dumps( event)}")
-                await websocket.send(json.dumps( event))
+                
+                payload = {
+                    "action" : "sendToRemoteController",
+                    "command" : json.dumps( event)
+                }
+                
+                print(f"Sending: {json.dumps( payload)}")
+                await websocket.send(json.dumps( payload))
 
                 # client2.publish( "state", json.dumps( event))
 
