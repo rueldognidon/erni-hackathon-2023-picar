@@ -178,10 +178,33 @@ def stop():
     px.stop()
 
 def auto( cmd):
-    forward(0.9)
-    forwardleft(1.15)
-    forward(3)
-    forwardright(2.2)
+    s1 = cmd['s1']
+    s2 = cmd['s2']
+    s3 = cmd['s3']
+    s4 = cmd['s4']
+    s5 = cmd['s5']
+    s6 = cmd['s6']
+    s7 = cmd['s7']
+    s8 = cmd['s8']
+    s9 = cmd['s9']
+    s10 = cmd['s10']
+    s11 = cmd['s11']
+    s12 = cmd['s12']
+    s13 = cmd['s13']
+
+    forward( s1)
+    forwardleft( s2)
+    forward( s3)
+    forwardright( s4)
+    forward( s5)
+    forwardleft( s6)
+    forward( s7)
+    forwardleft( s8)
+    forward( s9)
+    forwardleft( s10)
+    forward( s11)
+    forwardright(s12)
+    forward(s13)
     stop()
 
 
