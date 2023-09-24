@@ -154,22 +154,22 @@ def backward( slp):
     time.sleep( slp)
 
 def forwardleft( slp):
-    px.set_dir_servo_angle( -10)
+    px.set_dir_servo_angle( -20)
     px.forward( 10)
     time.sleep( slp)
 
 def backwardleft( slp):
-    px.set_dir_servo_angle( -10)
+    px.set_dir_servo_angle( -20)
     px.backward( 10)
     time.sleep( slp)
 
 def forwardright( slp):
-    px.set_dir_servo_angle( 10)
+    px.set_dir_servo_angle( 20)
     px.forward( 10)
     time.sleep( slp)
 
 def backwardright( slp):
-    px.set_dir_servo_angle( 10)
+    px.set_dir_servo_angle( 20)
     px.backward( 10)
     time.sleep( slp)
 
