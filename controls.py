@@ -65,8 +65,6 @@ async def websocket_listener():
             except Exception as e:
                 # Handle other exceptions not specifically caught above
                 print(f"An exception occurred: {str(e)}")
-        
-        asyncio.get_event_loop().run_until_complete(websocket_listener())
 
 def cmd_say( command):
     text = command['text']
@@ -108,16 +106,34 @@ def cmd_set_direction( cmd):
     if( -45 < angle & angle < 45):
         px.set_dir_servo_angle( angle)
 
+def run_event_loop():
+    try:
+        print('asyncio.get_event_loop()')
+        asyncio.get_event_loop().run_until_complete(websocket_listener())
+    except Exception as e:
+        # Handle other exceptions not specifically caught above
+        print(f"An exception occurred: {str(e)}")
+        tts_robot.say( str(e))
+    finally:
+        run_event_loop()
 
-if __name__ == "__main__":
+def startup_action():
+    tts_robot.say( 'Controls waking up!')
     px.set_camera_tilt_angle( 45)
     time.sleep( 0.5)
     px.set_camera_tilt_angle( 0)
-    print('asyncio.get_event_loop()')
-    asyncio.get_event_loop().run_until_complete(websocket_listener())
+
+def closing_action():
     print('----------Controls.PY Stopping-----------------')
     px.stop()
     px.set_dir_servo_angle( -30)
     px.set_dir_servo_angle( 30)
     px.set_dir_servo_angle( 0)
     tts_robot.say( 'Controls Stopping')
+
+
+if __name__ == "__main__":
+    startup_action()
+    run_event_loop()
+    closing_action()
+
