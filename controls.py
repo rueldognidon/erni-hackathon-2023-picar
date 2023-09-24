@@ -203,8 +203,8 @@ def auto( cmd):
     forward( s9)
     forwardleft( s10)
     forward( s11)
-    forwardright(s12)
-    forward(s13)
+    forwardright( s12)
+    forward( s13)
     stop()
 
 
