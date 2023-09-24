@@ -23,8 +23,8 @@ headers= {
 px = Picarx()
 px_lock = Lock()
 tts_robot = TTS()
-Vilib.camera_start(vflip=False,hflip=False)
-Vilib.display(local=False,web=True)
+# Vilib.camera_start(vflip=False,hflip=False)
+# Vilib.display(local=False,web=True)
 
 async def websocket_controls( websocket):
     print(f"Controls Running")
