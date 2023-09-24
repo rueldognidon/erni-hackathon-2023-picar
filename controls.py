@@ -36,6 +36,7 @@ async def websocket_listener():
             try:
                 web_socket_clients.add(websocket)
                 print('Connected to ' + uri)
+                say_text('Control Script Connected')
                 message = await websocket.recv()
                 print(f"Received: {message}")
                 command = json.loads(message)
@@ -66,6 +67,9 @@ async def websocket_listener():
 def cmd_say( command):
     text = command['text']
 
+    tts_robot.say( text)
+
+def say_text( text):
     tts_robot.say( text)
 
 
