@@ -47,7 +47,7 @@ async def websocket_listener():
                     "distance" : distance,
                     "grayscale" : grayscale
                 }
-
+                print(f"Sending: {json.dumps( event)}")
                 await websocket.send(json.dumps( event))
 
                 # client2.publish( "state", json.dumps( event))
