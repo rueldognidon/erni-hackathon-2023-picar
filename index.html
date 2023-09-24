@@ -1,5 +1,28 @@
 <html>
     <body>
+        <script>
+            function test(){
+                document.getElementById("demo").innerHTML = "Hello";
+            }
+        </script>
         <iframe src="https://viewer.millicast.com?streamId=2Mb6tU/ephpicar&play=false&volume=false&fullscreen=false&pip=false&cast=false&liveBadge=false&userCount=false&disableSettings=true" allowfullscreen width="640" height="480"></iframe>
+        <div id="demo"></div>
+        <table>
+            <tr>
+                <td><input type="button" value="FL"/></td>
+                <td><input type="button" value="F" onclick="test()"/></td>
+                <td><input type="button" value="FR"/></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="button" value="S"/></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><input type="button" value="BL"/></td>
+                <td><input type="button" value="B"/></td>
+                <td><input type="button" value="BR"/></td>
+            </tr>
+        </table>
     </body>
 </html>
