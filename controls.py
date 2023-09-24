@@ -66,7 +66,7 @@ async def websocket_listener():
                 # Handle other exceptions not specifically caught above
                 print(f"An exception occurred: {str(e)}")
         
-        websocket_listener()
+        asyncio.get_event_loop().run_until_complete(websocket_listener())
 
 def cmd_say( command):
     text = command['text']
@@ -112,5 +112,6 @@ def cmd_set_direction( cmd):
 if __name__ == "__main__":
     print('asyncio.get_event_loop()')
     asyncio.get_event_loop().run_until_complete(websocket_listener())
+    print('----------Controls.PY Stopping-----------------')
     px.stop()
     tts_robot.say( 'Controls Stopping')
