@@ -1,6 +1,7 @@
 import asyncio
 import websockets
 import ssl
+from vilib import Vilib
 from picarx import Picarx
 from robot_hat import TTS
 import time
@@ -22,6 +23,8 @@ headers= {
 px = Picarx()
 px_lock = Lock()
 tts_robot = TTS()
+Vilib.camera_start(vflip=False,hflip=False)
+Vilib.display(local=False,web=True)
 
 async def websocket_controls( websocket):
     print(f"Controls Running")
