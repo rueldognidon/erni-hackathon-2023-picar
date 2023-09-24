@@ -79,8 +79,7 @@ async def websocket_states( websocket):
             await websocket.send(json.dumps( payload))
 
             # client2.publish( "state", json.dumps( event))
-
-            time.sleep( 0.2)
+            await asyncio.sleep(0.2)
         except websockets.ConnectionClosed:
             print("WebSocket connection closed.")
             say_text('Disconnected!')
