@@ -23,6 +23,39 @@ px = Picarx()
 px_lock = Lock()
 tts_robot = TTS()
 
+async def websocket_receiver( websocket):
+    while True:
+        try:
+            message = await websocket.recv()
+            print(f"Received: {message}")
+            command = json.loads(message)
+            with px_lock:
+                operation = command['operation']
+
+                if  operation == 'set_speed':
+                    cmd_set_speed( command)
+                elif operation == 'stop':
+                    cmd_stop( command)
+                elif operation == 'set_direction':
+                    cmd_set_direction( command)
+                elif operation == 'set_head_rotate':
+                    cmd_set_head_rotate( command)
+                elif operation == 'set_head_tilt':
+                    cmd_set_head_tilt( command)
+                elif operation == 'say':
+                    cmd_say( command)
+                else:
+                    print('Unknown command')
+        except websockets.ConnectionClosed:
+            print("WebSocket connection closed.")
+            say_text('Disconnected!')
+            say_text('Disconnected!')
+            say_text('Disconnected!')
+            break
+        except Exception as e:
+            # Handle other exceptions not specifically caught above
+            print(f"An exception occurred: {str(e)}")
+
 async def websocket_listener():
     uri = "wss://0w6s2vuxge.execute-api.ap-southeast-1.amazonaws.com/production"  # Replace with the WebSocket URL you want to connect to
 
@@ -33,38 +66,9 @@ async def websocket_listener():
         
         say_text('Control Script Connected')
         print('Connected to ' + uri)
+        await websocket_receiver( websocket)
 
-        while True:
-            try:
-                message = await websocket.recv()
-                print(f"Received: {message}")
-                command = json.loads(message)
-                with px_lock:
-                    operation = command['operation']
-
-                    if  operation == 'set_speed':
-                        cmd_set_speed( command)
-                    elif operation == 'stop':
-                        cmd_stop( command)
-                    elif operation == 'set_direction':
-                        cmd_set_direction( command)
-                    elif operation == 'set_head_rotate':
-                        cmd_set_head_rotate( command)
-                    elif operation == 'set_head_tilt':
-                        cmd_set_head_tilt( command)
-                    elif operation == 'say':
-                        cmd_say( command)
-                    else:
-                        print('Unknown command')
-            except websockets.ConnectionClosed:
-                print("WebSocket connection closed.")
-                say_text('Disconnected!')
-                say_text('Disconnected!')
-                say_text('Disconnected!')
-                break
-            except Exception as e:
-                # Handle other exceptions not specifically caught above
-                print(f"An exception occurred: {str(e)}")
+       
 
 def cmd_say( command):
     text = command['text']
