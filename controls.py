@@ -23,8 +23,6 @@ px = Picarx()
 px_lock = Lock()
 tts_robot = TTS()
 
-web_socket_clients = set()
-
 async def websocket_listener():
     uri = "wss://0w6s2vuxge.execute-api.ap-southeast-1.amazonaws.com/production"  # Replace with the WebSocket URL you want to connect to
 
@@ -34,7 +32,6 @@ async def websocket_listener():
                                   uri = uri) as websocket:
         
         say_text('Control Script Connected')
-        web_socket_clients.add(websocket)
         print('Connected to ' + uri)
 
         while True:
@@ -61,10 +58,15 @@ async def websocket_listener():
                         print('Unknown command')
             except websockets.ConnectionClosed:
                 print("WebSocket connection closed.")
+                say_text('Disconnected!')
+                say_text('Disconnected!')
+                say_text('Disconnected!')
                 break
             except Exception as e:
                 # Handle other exceptions not specifically caught above
                 print(f"An exception occurred: {str(e)}")
+        
+        websocket_listener()
 
 def cmd_say( command):
     text = command['text']
