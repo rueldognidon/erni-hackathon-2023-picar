@@ -56,6 +56,39 @@ async def websocket_receiver( websocket):
             # Handle other exceptions not specifically caught above
             print(f"An exception occurred: {str(e)}")
 
+async def websocket_sender( websocket):
+    while True:
+        try:
+            with px_lock:
+                distance = round( px.ultrasonic.read(), 2)
+                grayscale = px.get_grayscale_data()
+
+            event = {
+                "distance" : distance,
+                "grayscale" : grayscale
+            }
+            
+            payload = {
+                "action" : "sendToRemoteController",
+                "command" : json.dumps( event)
+            }
+
+            print(f"Sending: {json.dumps( payload)}")
+            await websocket.send(json.dumps( payload))
+
+            # client2.publish( "state", json.dumps( event))
+
+            time.sleep( 0.2)
+        except websockets.ConnectionClosed:
+            print("WebSocket connection closed.")
+            say_text('Disconnected!')
+            say_text('Disconnected!')
+            say_text('Disconnected!')
+            break
+        except Exception as e:
+            # Handle other exceptions not specifically caught above
+            print(f"An exception occurred: {str(e)}")
+
 async def websocket_listener():
     uri = "wss://0w6s2vuxge.execute-api.ap-southeast-1.amazonaws.com/production"  # Replace with the WebSocket URL you want to connect to
 
@@ -66,7 +99,9 @@ async def websocket_listener():
         
         say_text('Control Script Connected')
         print('Connected to ' + uri)
-        await websocket_receiver( websocket)
+        recevier = asyncio.create_task(websocket_receiver( websocket))
+        sender = asyncio.create_task(websocket_sender( websocket))
+        await asyncio.gather(recevier, sender)
 
        
 
