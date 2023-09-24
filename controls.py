@@ -49,9 +49,6 @@ async def websocket_controls( websocket):
                     print('Unknown command')
         except websockets.ConnectionClosed:
             print("WebSocket connection closed.")
-            say_text('Disconnected!')
-            say_text('Disconnected!')
-            say_text('Disconnected!')
             break
         except Exception as e:
             # Handle other exceptions not specifically caught above
@@ -82,9 +79,6 @@ async def websocket_states( websocket):
             await asyncio.sleep(0.2)
         except websockets.ConnectionClosed:
             print("WebSocket connection closed.")
-            say_text('Disconnected!')
-            say_text('Disconnected!')
-            say_text('Disconnected!')
             break
         except Exception as e:
             # Handle other exceptions not specifically caught above
@@ -151,8 +145,8 @@ def run_event_loop():
         # Handle other exceptions not specifically caught above
         print(f"An exception occurred: {str(e)}")
         tts_robot.say( str(e))
-    # finally:
-    #     run_event_loop()
+    finally:
+        run_event_loop()
 
 def startup_action():
     tts_robot.say( 'Controls waking up!')
