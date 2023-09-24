@@ -87,12 +87,13 @@ async def websocket_states( websocket):
 async def websocket_listener():
     uri = "wss://0w6s2vuxge.execute-api.ap-southeast-1.amazonaws.com/production"  # Replace with the WebSocket URL you want to connect to
 
+    say_text('Ze bluetooth je vice iz ready to pair')
     async with websockets.connect(ssl=ssl.SSLContext(ssl.PROTOCOL_TLS),
                                   extra_headers=headers,
                                   origin="*",
                                   uri = uri) as websocket:
         
-        say_text('Control Script Connected')
+        say_text('Web Socket Connected')
         print('Connected to ' + uri)
 
         await asyncio.gather(websocket_controls( websocket), websocket_states( websocket))
@@ -144,7 +145,7 @@ def run_event_loop():
     except Exception as e:
         # Handle other exceptions not specifically caught above
         print(f"An exception occurred: {str(e)}")
-        tts_robot.say( str(e))
+        tts_robot.say( 'Error Occured')
     finally:
         run_event_loop()
 
