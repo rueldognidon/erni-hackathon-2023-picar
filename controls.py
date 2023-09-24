@@ -32,11 +32,13 @@ async def websocket_listener():
                                   extra_headers=headers,
                                   origin="*",
                                   uri = uri) as websocket:
+        
+        say_text('Control Script Connected')
+        web_socket_clients.add(websocket)
+        print('Connected to ' + uri)
+
         while True:
             try:
-                web_socket_clients.add(websocket)
-                print('Connected to ' + uri)
-                say_text('Control Script Connected')
                 message = await websocket.recv()
                 print(f"Received: {message}")
                 command = json.loads(message)
