@@ -110,6 +110,9 @@ def cmd_set_direction( cmd):
 
 
 if __name__ == "__main__":
+    px.set_camera_tilt_angle( 45)
+    time.sleep( 0.5)
+    px.set_camera_tilt_angle( 0)
     print('asyncio.get_event_loop()')
     asyncio.get_event_loop().run_until_complete(websocket_listener())
     print('----------Controls.PY Stopping-----------------')
