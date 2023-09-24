@@ -133,7 +133,7 @@ def closing_action():
 
 
 if __name__ == "__main__":
-    startup_action()
-    run_event_loop()
-    closing_action()
+    startup_action
+    run_event_loop
+    closing_action
 
