@@ -46,6 +46,8 @@ async def websocket_controls( websocket):
                     cmd_set_head_rotate( command)
                 elif operation == 'set_head_tilt':
                     cmd_set_head_tilt( command)
+                elif operation == 'auto':
+                    auto( command)
                 elif operation == 'say':
                     cmd_say( command)
                 else:
@@ -141,6 +143,48 @@ def cmd_set_direction( cmd):
     if( -45 < angle & angle < 45):
         px.set_dir_servo_angle( angle)
 
+def forward( slp):
+    px.set_dir_servo_angle( 0)
+    px.forward( 10)
+    time.sleep( slp)
+
+def backward( slp):
+    px.set_dir_servo_angle( 0)
+    px.backward( 10)
+    time.sleep( slp)
+
+def forwardleft( slp):
+    px.set_dir_servo_angle( -10)
+    px.forward( 10)
+    time.sleep( slp)
+
+def backwardleft( slp):
+    px.set_dir_servo_angle( -10)
+    px.backward( 10)
+    time.sleep( slp)
+
+def forwardright( slp):
+    px.set_dir_servo_angle( 10)
+    px.forward( 10)
+    time.sleep( slp)
+
+def backwardright( slp):
+    px.set_dir_servo_angle( 10)
+    px.backward( 10)
+    time.sleep( slp)
+
+def stop():
+    px.set_dir_servo_angle( 0)
+    px.stop()
+
+def auto( cmd):
+    forward(0.9)
+    forwardleft(1.15)
+    forward(3.2)
+    forwardright(2.2)
+    stop()
+
+
 def run_event_loop():
     try:
         print('asyncio.get_event_loop()')
@@ -165,7 +209,6 @@ def closing_action():
     px.set_dir_servo_angle( 30)
     px.set_dir_servo_angle( 0)
     tts_robot.say( 'Controls Stopping')
-
 
 if __name__ == "__main__":
     startup_action()

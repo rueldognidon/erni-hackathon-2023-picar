@@ -13,36 +13,11 @@
                 document.getElementById("demo").innerHTML = "Hello";
             }
 
-            async function sleep(msec) {
-                return new Promise(resolve => setTimeout(resolve, msec * 1000));
-            }
-
-            async function auto(){
-                forward();
-                await sleep(0.9);
-                fleft();
-                await sleep(1.15);
-                forward();
-                await sleep(3.2);
-                fright();
-                await sleep(2.2);
-                forward();
-                await sleep(1);
-                // forward();
-                // await sleep(1000);
-                // fleft();
-                // await sleep(1000);
-                // forward();
-                // await sleep(1000);
-                // fleft();
-                // await sleep(1000);
-                // forward();
-                // await sleep(1000);
-                // fright();
-                // await sleep(1000);
-                // forward();
-                // await sleep(1000);
-                stop();
+            function auto(){
+                websocket.send(JSON.stringify({
+                    action:"sendCommandToRaspberryPI",
+                    command:'{"operation":"auto","speed":1}'
+                }));
             }
 
             function forward(){
