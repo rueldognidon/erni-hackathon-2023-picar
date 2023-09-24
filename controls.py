@@ -117,4 +117,7 @@ if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(websocket_listener())
     print('----------Controls.PY Stopping-----------------')
     px.stop()
+    px.set_dir_servo_angle( -30)
+    px.set_dir_servo_angle( 30)
+    px.set_dir_servo_angle( 0)
     tts_robot.say( 'Controls Stopping')
