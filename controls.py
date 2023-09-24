@@ -23,7 +23,7 @@ px = Picarx()
 px_lock = Lock()
 tts_robot = TTS()
 
-async def websocket_receiver( websocket):
+async def websocket_controls( websocket):
     while True:
         try:
             message = await websocket.recv()
@@ -56,7 +56,7 @@ async def websocket_receiver( websocket):
             # Handle other exceptions not specifically caught above
             print(f"An exception occurred: {str(e)}")
 
-async def websocket_sender( websocket):
+async def websocket_states( websocket):
     while True:
         try:
             with px_lock:
@@ -99,9 +99,10 @@ async def websocket_listener():
         
         say_text('Control Script Connected')
         print('Connected to ' + uri)
-        recevier = asyncio.create_task(websocket_receiver( websocket))
-        sender = asyncio.create_task(websocket_sender( websocket))
-        await asyncio.gather(sender, recevier)
+        await websocket_controls( websocket)
+        # recevier = asyncio.create_task(websocket_controls( websocket))
+        # sender = asyncio.create_task(websocket_states( websocket))
+        # await asyncio.gather(sender, recevier)
 
 def cmd_say( command):
     text = command['text']
