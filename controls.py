@@ -180,7 +180,7 @@ def stop():
 def auto( cmd):
     forward(0.9)
     forwardleft(1.15)
-    forward(3.2)
+    forward(3)
     forwardright(2.2)
     stop()
 
@@ -211,6 +211,7 @@ def closing_action():
     tts_robot.say( 'Controls Stopping')
 
 if __name__ == "__main__":
+    auto()
     startup_action()
     run_event_loop()
     closing_action()
