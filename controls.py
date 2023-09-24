@@ -24,6 +24,7 @@ px_lock = Lock()
 tts_robot = TTS()
 
 async def websocket_controls( websocket):
+    print(f"Controls Running")
     while True:
         try:
             message = await websocket.recv()
@@ -57,6 +58,7 @@ async def websocket_controls( websocket):
             print(f"An exception occurred: {str(e)}")
 
 async def websocket_states( websocket):
+    print(f"States Running")
     while True:
         try:
             with px_lock:
@@ -99,10 +101,8 @@ async def websocket_listener():
         
         say_text('Control Script Connected')
         print('Connected to ' + uri)
-        await websocket_controls( websocket)
-        # recevier = asyncio.create_task(websocket_controls( websocket))
-        # sender = asyncio.create_task(websocket_states( websocket))
-        # await asyncio.gather(sender, recevier)
+
+        await asyncio.gather(websocket_controls( websocket), websocket_states( websocket))
 
 def cmd_say( command):
     text = command['text']
