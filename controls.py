@@ -180,14 +180,13 @@ def stop():
     px.stop()
 
 def waitForWhite():
-    isNotWhite = True
     ctr = 0
-    while isNotWhite:
+    while True:
         grayscale = px.get_grayscale_data()
         
-        g1 = grayscale[0]
-        g2 = grayscale[1]
-        g3 = grayscale[2]
+        g1 = int(grayscale[0])
+        g2 = int(grayscale[1])
+        g3 = int(grayscale[2])
 
         print(f'g1:{str(g1)} g2:{str(g2)} g3:{str(g3)}')
         
@@ -195,9 +194,9 @@ def waitForWhite():
         if( ctr > 60 ):
             raise Exception("Wait for white timeout")
 
-        if( g1> 40 &  g2 > 40 & g3 > 40 ):
+        if( g1 > 60 &  g2 > 60 & g3 > 60 ):
             print('white detected')
-            isNotWhite = False
+            break
         
         time.sleep( 0.1)
 
