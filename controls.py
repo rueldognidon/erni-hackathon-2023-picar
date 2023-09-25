@@ -20,6 +20,11 @@ headers= {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36'
     }
 
+current_state = None
+px_power = 10
+offset = 20
+last_state = "stop"
+
 px = Picarx()
 px_lock = Lock()
 tts_robot = TTS()
@@ -182,10 +187,7 @@ def stop():
     px.stop()
 
 ## Start of Line Tracing
-current_state = None
-px_power = 10
-offset = 20
-last_state = "stop"
+
 
 def outHandle():
     global last_state, current_state
