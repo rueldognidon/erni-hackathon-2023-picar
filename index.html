@@ -44,8 +44,17 @@
             websocket.onmessage = function(evt) { onMessage(evt) };
             websocket.onerror = function(evt) { onError(evt) };
 
+            speed = 10;
+
             function test(){
                 document.getElementById("demo").innerHTML = "Hello";
+            }
+
+            function lineTracing(){
+                websocket.send(JSON.stringify({
+                    action:"sendCommandToRaspberryPI",
+                    command:'{"operation":"line_tracer","speed":10}'
+                }));
             }
 
             function pathFinder(){
@@ -65,7 +74,7 @@
             function forward(){
                 websocket.send(JSON.stringify({
                     action:"sendCommandToRaspberryPI",
-                    command:'{"operation":"set_speed","speed":10}'
+                    command:'{"operation":"set_speed","speed":'+ speed +'}'
                 }));
                 websocket.send(JSON.stringify({
                     action:"sendCommandToRaspberryPI",
@@ -76,7 +85,7 @@
             function fright(){
                 websocket.send(JSON.stringify({
                     action:"sendCommandToRaspberryPI",
-                    command:'{"operation":"set_speed","speed":10}'
+                    command:'{"operation":"set_speed","speed":'+ speed +'}'
                 }));
                 websocket.send(JSON.stringify({
                     action:"sendCommandToRaspberryPI",
@@ -87,7 +96,7 @@
             function fleft(){
                 websocket.send(JSON.stringify({
                     action:"sendCommandToRaspberryPI",
-                    command:'{"operation":"set_speed","speed":10}'
+                    command:'{"operation":"set_speed","speed":'+ speed +'}'
                 }));
                 websocket.send(JSON.stringify({
                     action:"sendCommandToRaspberryPI",
@@ -98,7 +107,7 @@
             function backward(){
                 websocket.send(JSON.stringify({
                     action:"sendCommandToRaspberryPI",
-                    command:'{"operation":"set_speed","speed":-10}'
+                    command:'{"operation":"set_speed","speed":-'+ speed +'}'
                 }));
                 websocket.send(JSON.stringify({
                     action:"sendCommandToRaspberryPI",
@@ -109,7 +118,7 @@
             function bright(){
                 websocket.send(JSON.stringify({
                     action:"sendCommandToRaspberryPI",
-                    command:'{"operation":"set_speed","speed":-10}'
+                    command:'{"operation":"set_speed","speed":-'+ speed +'}'
                 }));
                 websocket.send(JSON.stringify({
                     action:"sendCommandToRaspberryPI",
@@ -119,7 +128,7 @@
             function bleft(){
                 websocket.send(JSON.stringify({
                     action:"sendCommandToRaspberryPI",
-                    command:'{"operation":"set_speed","speed":-10}'
+                    command:'{"operation":"set_speed","speed":-'+ speed +'}'
                 }));
                 websocket.send(JSON.stringify({
                     action:"sendCommandToRaspberryPI",
@@ -161,7 +170,7 @@
         <div>
 
             <div class="container">
-                <!-- <iframe src="http://10.163.91.34:9000/mjpg" width="640" height="480" hidden="true"></iframe> -->
+                <!-- <iframe src="http://10.163.91.34:9000/mjpg" width="640" height="480"></iframe> -->
                 <iframe src="https://viewer.millicast.com?streamId=2Mb6tU/ephpicar&play=false&volume=false&fullscreen=false&pip=false&cast=false&liveBadge=false&userCount=false&disableSettings=true" allowfullscreen width="640" height="480"></iframe>
             </div>
 
@@ -190,9 +199,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><div class="controlButton" onmousedown="fleft()" onmouseup="stop()"><span class="icon fa-solid fa-turn-up" style="rotate: -90deg;"></span></div></td>
-                        <td><div class="controlButton" onmousedown="forward()" onmouseup="stop()"><span class="icon fa-solid fa-up-long"></span></div></td>
-                        <td><div class="controlButton" onmousedown="fright()" onmouseup="stop()"><span class="icon fa-solid fa-turn-down" style="rotate: -90deg;"></span></div></td>
+                        <td><div class="controlButton" onmousedown="fleft()" onmouseup="stop()" onmouseleave="stop"><span class="icon fa-solid fa-turn-up" style="rotate: -90deg;"></span></div></td>
+                        <td><div class="controlButton" onmousedown="forward()" onmouseup="stop()" onmouseleave="stop"><span class="icon fa-solid fa-up-long"></span></div></td>
+                        <td><div class="controlButton" onmousedown="fright()" onmouseup="stop()" onmouseleave="stop"><span class="icon fa-solid fa-turn-down" style="rotate: -90deg;"></span></div></td>
                     </tr>
                     <tr>
                         <td></td>
@@ -200,17 +209,17 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td><div class="controlButton" onmousedown="bleft()" onmouseup="stop()"><span class="icon fa-solid fa-turn-down" style="rotate: 90deg;"></span></div></td>
-                        <td><div class="controlButton" onmousedown="backward()" onmouseup="stop()"><span class="icon fa-solid fa-down-long"></span></div></td>
-                        <td><div class="controlButton" onmousedown="bright()" onmouseup="stop()"><span class="icon fa-solid fa-turn-up" style="rotate: 90deg;"></span></div></td>
+                        <td><div class="controlButton" onmousedown="bleft()" onmouseup="stop()" onmouseleave="stop"><span class="icon fa-solid fa-turn-down" style="rotate: 90deg;"></span></div></td>
+                        <td><div class="controlButton" onmousedown="backward()" onmouseup="stop()" onmouseleave="stop"><span class="icon fa-solid fa-down-long"></span></div></td>
+                        <td><div class="controlButton" onmousedown="bright()" onmouseup="stop()" onmouseleave="stop"><span class="icon fa-solid fa-turn-up" style="rotate: 90deg;"></span></div></td>
                     </tr>
                     <tr>
                         <td colspan="3">Automations:</td>
                     </tr>
                     <tr>
                         <td><div class="controlButton" onmousedown="pathFinder()"><span class="icon fa-solid fa-robot"></span></div></td>
-                        <td><div class="controlButton" onmousedown="auto()"><span class="icon fa-solid fa-route"></span></div></td>
-                        <td></td>
+                        <td><div class="controlButton" onmousedown="auto()"><span class="icon fa-solid fa-timeline"></span></div></td>
+                        <td><div class="controlButton" onmousedown="lineTracing()"><span class="icon fa-solid fa-route"></span></div></td>
                     </tr>
                 </table>
             </div>
