@@ -190,15 +190,16 @@ def waitForWhite():
 
         print(f'g1:{str(g1)} g2:{str(g2)} g3:{str(g3)}')
         
-        ctr = ctr + 1
-        if( ctr > 40 ):
-            raise Exception("Wait for white timeout")
-
         if((g1 > 60) and  (g2 > 60) and (g3 > 60)):
             print('white detected')
             break
         
         time.sleep( 0.1)
+        ctr = ctr + 1
+        if( ctr > 40 ):
+            raise Exception("Wait for white timeout")
+
+
 
 def pathfinder( cmd):
     forward( 1)
