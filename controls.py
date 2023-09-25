@@ -50,6 +50,8 @@ async def websocket_controls( websocket):
                     auto( command)
                 elif operation == 'path_finder':
                     pathfinder( command)
+                elif operation == 'line_tracer':
+                    lineTracing( command)
                 elif operation == 'say':
                     cmd_say( command)
                 else:
@@ -178,6 +180,69 @@ def backwardright( slp):
 def stop():
     px.set_dir_servo_angle( 0)
     px.stop()
+
+## Start of Line Tracing
+current_state = None
+px_power = 10
+offset = 20
+last_state = "stop"
+
+def outHandle():
+    global last_state, current_state
+    if last_state == 'left':
+        px.set_dir_servo_angle(-30)
+        px.backward(10)
+    elif last_state == 'right':
+        px.set_dir_servo_angle(30)
+        px.backward(10)
+    while True:
+        gm_val_list = px.get_grayscale_data()
+        gm_state = get_status(gm_val_list)
+        print("outHandle gm_val_list: %s, %s"%(gm_val_list, gm_state))
+        currentSta = gm_state
+        if currentSta != last_state:
+            break
+    time.sleep(0.001)
+
+def get_status(val_list):
+    _state = px.get_line_status(val_list)  # [bool, bool, bool], 0 means line, 1 means background
+    if _state == [1, 1, 1]:
+        return 'stop'
+    elif _state[1] == 0:
+        return 'forward'
+    elif _state[0] == 0:
+        return 'right'
+    elif _state[2] == 0:
+        return 'left'
+    
+def lineTracing( cmd):
+    try:
+        while True:
+            gm_val_list = px.get_grayscale_data()
+            gm_state = get_status(gm_val_list)
+            print("gm_val_list: %s, %s"%(gm_val_list, gm_state))
+            print(gm_state[0], last_state)
+
+            if gm_state != "stop":
+                last_state = gm_state
+
+            if gm_state == 'forward':
+                px.set_dir_servo_angle(0)
+                px.forward(px_power) 
+            elif gm_state == 'left':
+                px.set_dir_servo_angle(offset)
+                px.forward(px_power) 
+            elif gm_state == 'right':
+                px.set_dir_servo_angle(-offset)
+                px.forward(px_power) 
+            else:
+                outHandle()
+    finally:
+        px.stop()
+        print("stop and exit")
+        time.sleep(0.1)
+
+# End of line tracing
 
 def waitForWhite():
     ctr = 0
