@@ -48,6 +48,13 @@
                 document.getElementById("demo").innerHTML = "Hello";
             }
 
+            function pathFinder(){
+                websocket.send(JSON.stringify({
+                    action:"sendCommandToRaspberryPI",
+                    command:'{"operation":"path_finder","speed":10}'
+                }));
+            }
+
             function auto(){
                 websocket.send(JSON.stringify({
                     action:"sendCommandToRaspberryPI",
@@ -199,7 +206,7 @@
                     </tr>
                     <tr>
                         <td></td>
-                        <td><div class="controlButton" onmousedown="auto()"><span class="icon fa-solid fa-route"></span></div></td>
+                        <td><div class="controlButton" onmousedown="pathFinder()"><span class="icon fa-solid fa-route"></span></div></td>
                         <td></td>
                     </tr>
                 </table>
