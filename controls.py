@@ -189,7 +189,7 @@ def waitForWhite():
         g2 = grayscale[1]
         g3 = grayscale[2]
 
-        print('g1:{g1} g2:{g2} g3:{g3}')
+        print(f'g1:{str(g1)} g2:{str(g2)} g3:{str(g3)}')
         
         ctr = ctr + 1
         if( ctr > 60 ):
