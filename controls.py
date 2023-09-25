@@ -196,17 +196,20 @@ def waitForWhite():
         
         time.sleep( 0.1)
         ctr = ctr + 1
-        if( ctr > 40 ):
+        if( ctr > 60 ):
             raise Exception("Wait for white timeout")
 
 
 
 def pathfinder( cmd):
     try:
-        forward( 1)
+        forward( 0.5)
         waitForWhite()
         forwardleft( 0.5)
         waitForWhite()
+        forward( 0.5)
+        waitForWhite()
+        forwardright( 0.5)
         stop()
     except:
         stop()
