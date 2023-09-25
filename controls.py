@@ -181,9 +181,9 @@ def stop():
 
 def waitForWhite():
     isNotWhite = True
+    ctr = 0
     while isNotWhite:
-        with px_lock:
-            grayscale = px.get_grayscale_data()
+        grayscale = px.get_grayscale_data()
         
         g1 = grayscale[0]
         g2 = grayscale[1]
@@ -191,6 +191,10 @@ def waitForWhite():
 
         print('g1:{g1} g2:{g2} g3:{g3}')
         
+        ctr = ctr + 1
+        if( ctr > 60 ):
+            isNotWhite = False
+
         if( g1> 40 &  g2 > 40 & g3 > 40 ):
             isNotWhite = False
         
@@ -201,7 +205,6 @@ def pathfinder( cmd):
     forward( 1)
     waitForWhite()
     forwardleft( 0.5)
-    forwardleft( 0)
     waitForWhite()
     stop()
 
