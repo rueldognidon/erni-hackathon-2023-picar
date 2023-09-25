@@ -1,8 +1,10 @@
 <html>
     <head>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
         <style>
             body{
                 color: white;
+                font-family: "Audiowide", sans-serif;
             }
 
             .container {
@@ -16,12 +18,30 @@
                 align-items: center;
                 justify-content: center;
                 background-color: lightgreen;
-                border: transparent;
+                border: black;
+
                 width: 60;
-                height: 50;
+                height: 60;
                 font-size: large;
                 font-weight: bold;
                 color:#222;
+                border-radius: 5px 5px 5px 5px;
+            }
+
+            .uleft {
+                border-top-left-radius: 20px;
+            }
+
+            .uright {
+                border-top-right-radius: 20px;
+            }
+
+            .dleft {
+                border-bottom-left-radius: 20px;
+            }
+
+            .dright {
+                border-bottom-right-radius: 20px;
             }
 
             .controlButton:active {
@@ -30,6 +50,78 @@
 
             .icon {
                 font-size: 35
+            }
+
+            label{
+                margin-left: 10;
+                margin-right: 10;
+            }
+
+            input[type="radio"] {
+                appearance: none;
+                background-color: #fff;
+                margin: 0;
+                font: inherit;
+                color: currentColor;
+                width: 1.15em;
+                height: 1.15em;
+                border: 0.15em solid currentColor;
+                border-radius: 50%;
+                transform: translateY(-0.075em);
+                display: grid;
+                place-content: center;
+            }
+
+            input[type="radio"]::before {
+                /* Add if not using autoprefixer */
+                -webkit-appearance: none;
+                appearance: none;
+                /* For iOS < 15 to remove gradient background */
+                background-color: #fff;
+                /* Not removed via appearance */
+                margin: 0;
+                content: "";
+                width: 0.65em;
+                height: 0.65em;
+                border-radius: 50%;
+                transform: scale(0);
+                transition: 120ms transform ease-in-out;
+                box-shadow: inset 1em 1em var(--form-control-color);
+                background-color: CanvasText;
+            }
+
+            input[type="radio"]:checked::before {
+                transform: scale(1);
+                color: lightgreen;
+            }
+
+            input[type="radio"]:focus {
+                outline: max(2px, 0.15em) solid currentColor;
+                outline-offset: max(2px, 0.15em);
+            }
+
+            :root {
+            --form-control-color: green;
+            }
+
+            *,
+            *:before,
+            *:after {
+                box-sizing: border-box;
+            }
+
+            .form-control {
+                font-family: system-ui, sans-serif;
+                font-size: 2rem;
+                font-weight: bold;
+                line-height: 1.1;
+                display: grid;
+                grid-template-columns: 1em auto;
+                gap: 0.5em;
+            }
+
+            .form-control:focus-within {
+                color: var(--form-control-color);
             }
 
 
@@ -177,41 +269,51 @@
         </script>
     </head>
     <body style="background-color: #222;">
-        <div>
+        <div style="padding:20;">
+            <div class="container">
+                <Span style="font-size: x-large; color: lightgreen;">TERMINAL NINJA -</Span>
+                <Span style="font-size: x-large; color: white;"> - TEAM MANILA</Span>
+            </div>
 
             <div class="container">
+                <span style="margin: 0px 20px 0px 20px;">CAMERA FEED:</span>
+                <input type="radio" id="Local"  name="video"  onclick="onRadioToggle()"><label for="Local">Local</label>
+                <input type="radio" id="Stream" name="video" checked="true"  onclick="onRadioToggle()"><label for="Stream">Stream</label>
+            </div>
+            <div class="container">
+
                 <iframe id="localVideo" src="http://10.163.91.34:9000/mjpg" width="640" height="480" hidden="true"></iframe>
                 <iframe id="onlineVideo"  src="https://viewer.millicast.com?streamId=2Mb6tU/ephpicar&play=false&volume=false&fullscreen=false&pip=false&cast=false&liveBadge=false&userCount=false&disableSettings=true" allowfullscreen width="640" height="480"></iframe>
             </div>
 
             <div class="container">
-                <div style="width: 420;">
-                    <div class="container">
-                        <input type="radio" id="Local"  name="video"  onclick="onRadioToggle()"><label for="Local">Local</label>
-                        <input type="radio" id="Stream" name="video" checked="true"  onclick="onRadioToggle()"><label for="Stream">Stream</label>
+                <div style="width: 420; padding-right: 15;">
+                    <table>
+                        <tr>
+                            <td colspan="3" Style="text-align: center;">AUTOMATIONS</td>
+                        </tr>
+                        <tr>
+                            <td><div class="controlButton uleft dleft" onmousedown="pathFinder()"><span class="icon fa-solid fa-robot"></span></div></td>
+                            <td><div class="controlButton" onmousedown="auto()"><span class="icon fa-solid fa-timeline"></span></div></td>
+                            <td><div class="controlButton uright dright" onmousedown="lineTracing()"><span class="icon fa-solid fa-route"></span></div></td>
+                        </tr>
+                    </table>
+
+                    <div style="text-align: left; margin-top: 15; margin-bottom: -10; padding: 5px 10px 5px 10px; background-color: #111;"><span >SENSOR STATUS:</span></div>
+                    <div class="container" style="background-color: #333; padding:10;">
+                        <span id="demo" style="color: white; align-content: center;"></span>
                     </div>
-                    <div class="container"><span style="font-weight: bold; font-size: small;">Sensor Status</span></div>
-                    <div class="container"><span id="demo" style="color: white; align-content: center;"></span></div>
                 </div>
                 <table>
                     <tr>
-                        <td colspan="3">
-                            <table style="width: 100%;">
-                                <tr>
-                                    <td>Press</td>
-                                    <td style="text-align: right;">Activate</td>
-                                </tr>
-                                <tr>
-                                    <td>Unpress</td>
-                                    <td style="text-align: right;">Deactivate</td>
-                                </tr>
-                            </table>
+                        <td colspan="3" style="text-align: center;">
+                            MANUAL CONTROLS
                         </td>
                     </tr>
                     <tr>
-                        <td><div class="controlButton" onmousedown="fleft()" onmouseup="stop()" onmouseleave="stop"><span class="icon fa-solid fa-turn-up" style="rotate: -90deg;"></span></div></td>
+                        <td><div class="controlButton uleft" onmousedown="fleft()" onmouseup="stop()" onmouseleave="stop"><span class="icon fa-solid fa-turn-up" style="rotate: -90deg;"></span></div></td>
                         <td><div class="controlButton" onmousedown="forward()" onmouseup="stop()" onmouseleave="stop"><span class="icon fa-solid fa-up-long"></span></div></td>
-                        <td><div class="controlButton" onmousedown="fright()" onmouseup="stop()" onmouseleave="stop"><span class="icon fa-solid fa-turn-down" style="rotate: -90deg;"></span></div></td>
+                        <td><div class="controlButton uright" onmousedown="fright()" onmouseup="stop()" onmouseleave="stop"><span class="icon fa-solid fa-turn-down" style="rotate: -90deg;"></span></div></td>
                     </tr>
                     <tr>
                         <td></td>
@@ -219,18 +321,11 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td><div class="controlButton" onmousedown="bleft()" onmouseup="stop()" onmouseleave="stop"><span class="icon fa-solid fa-turn-down" style="rotate: 90deg;"></span></div></td>
+                        <td><div class="controlButton dleft" onmousedown="bleft()" onmouseup="stop()" onmouseleave="stop"><span class="icon fa-solid fa-turn-down" style="rotate: 90deg;"></span></div></td>
                         <td><div class="controlButton" onmousedown="backward()" onmouseup="stop()" onmouseleave="stop"><span class="icon fa-solid fa-down-long"></span></div></td>
-                        <td><div class="controlButton" onmousedown="bright()" onmouseup="stop()" onmouseleave="stop"><span class="icon fa-solid fa-turn-up" style="rotate: 90deg;"></span></div></td>
+                        <td><div class="controlButton dright" onmousedown="bright()" onmouseup="stop()" onmouseleave="stop"><span class="icon fa-solid fa-turn-up" style="rotate: 90deg;"></span></div></td>
                     </tr>
-                    <tr>
-                        <td colspan="3">Automations:</td>
-                    </tr>
-                    <tr>
-                        <td><div class="controlButton" onmousedown="pathFinder()"><span class="icon fa-solid fa-robot"></span></div></td>
-                        <td><div class="controlButton" onmousedown="auto()"><span class="icon fa-solid fa-timeline"></span></div></td>
-                        <td><div class="controlButton" onmousedown="lineTracing()"><span class="icon fa-solid fa-route"></span></div></td>
-                    </tr>
+
                 </table>
             </div>
        </div>
