@@ -210,6 +210,7 @@ def pathfinder( cmd):
         forward( 0.5)
         waitForWhite()
         forwardright( 0.5)
+        waitForWhite()
         stop()
     except:
         stop()
