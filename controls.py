@@ -202,11 +202,14 @@ def waitForWhite():
 
 
 def pathfinder( cmd):
-    forward( 1)
-    waitForWhite()
-    forwardleft( 0.5)
-    waitForWhite()
-    stop()
+    try:
+        forward( 1)
+        waitForWhite()
+        forwardleft( 0.5)
+        waitForWhite()
+        stop()
+    except:
+        stop()
 
 
 
