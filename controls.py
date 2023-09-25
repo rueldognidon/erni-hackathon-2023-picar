@@ -48,6 +48,8 @@ async def websocket_controls( websocket):
                     cmd_set_head_tilt( command)
                 elif operation == 'auto':
                     auto( command)
+                elif operation == 'path_finder':
+                    pathfinder( command)
                 elif operation == 'say':
                     cmd_say( command)
                 else:
@@ -176,6 +178,30 @@ def backwardright( slp):
 def stop():
     px.set_dir_servo_angle( 0)
     px.stop()
+
+def waitForWhite():
+    isWhite = False
+    while isWhite:
+        with px_lock:
+            grayscale = px.get_grayscale_data()
+        
+        g1 = grayscale[0]
+        g2 = grayscale[1]
+        g3 = grayscale[2]
+        
+        if( g1> 40 &  g2 > 40 & g3 > 40 ):
+            isWhite = True
+
+
+def pathfinder( cmd):
+    forward( 0)
+    waitForWhite()
+    forwardleft( 0.5)
+    forwardleft( 0)
+    waitForWhite()
+    stop()
+
+
 
 def auto( cmd):
     s1 = cmd['s1']
