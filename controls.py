@@ -191,10 +191,10 @@ def waitForWhite():
         print(f'g1:{str(g1)} g2:{str(g2)} g3:{str(g3)}')
         
         ctr = ctr + 1
-        if( ctr > 60 ):
+        if( ctr > 40 ):
             raise Exception("Wait for white timeout")
 
-        if( g1 > 60 &  g2 > 60 & g3 > 60 ):
+        if((g1 > 60) and  (g2 > 60) and (g3 > 60)):
             print('white detected')
             break
         
