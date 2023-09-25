@@ -193,12 +193,16 @@ def waitForWhite():
         
         ctr = ctr + 1
         if( ctr > 60 ):
+            print('timeout')
             isNotWhite = False
 
         if( g1> 40 &  g2 > 40 & g3 > 40 ):
+            print('white detected')
             isNotWhite = False
         
         time.sleep( 0.1)
+    
+    print('white detected')
 
 
 def pathfinder( cmd):
