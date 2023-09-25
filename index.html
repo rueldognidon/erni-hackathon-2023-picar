@@ -1,5 +1,39 @@
 <html>
     <head>
+        <style>
+            body{
+                color: white;
+            }
+
+            .container {
+                display: flex; 
+                justify-content: center;
+            }
+
+            .controlButton {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: lightgreen;
+                border: transparent;
+                width: 60;
+                height: 50;
+                font-size: large;
+                font-weight: bold;
+                color:#222;
+            }
+
+            .controlButton:active {
+                background-color: lightcoral;
+            }
+
+            .icon {
+                font-size: 35
+            }
+
+
+        </style>
+        <script src="https://kit.fontawesome.com/53aa2ad808.js" crossorigin="anonymous"></script>
         <script>
 
             var wsUri="wss://sx5ivtfpjl.execute-api.ap-southeast-1.amazonaws.com/production";
@@ -116,45 +150,42 @@
         </script>
     </head>
     <body style="background-color: #222;">
-        <table>
-            <tr>
-                <td style="width: 25%"></td>
-                <td style="width: 50%"><iframe src="https://viewer.millicast.com?streamId=2Mb6tU/ephpicar&play=false&volume=false&fullscreen=false&pip=false&cast=false&liveBadge=false&userCount=false&disableSettings=true" allowfullscreen width="640" height="480"></iframe></td>
-                <td style="width: 25%"></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><div id="demo" style="color: white; align-content: center;"></div></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <table style="margin:auto;">
-                        <tr>
-                            <td><input type="button" value="FL" onclick="fleft()"/></td>
-                            <td><input type="button" value="F" onclick="forward()"/></td>
-                            <td><input type="button" value="FR" onclick="fright()"/></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td><input type="button" value="S" onclick="stop()"/></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><input type="button" value="BL" onclick="bleft()"/></td>
-                            <td><input type="button" value="B" onclick="backward()"/></td>
-                            <td><input type="button" value="BR" onclick="bright()"/></td>
-                        </tr>
-                    </table>
-                </td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><input type="button" value="auto" onclick="auto()"/></td>
-                <td></td>
-            </tr>
-        </table>
+        <div>
+            <!-- <div class="container">
+                <input type="radio" id="Local" checked="true" name="video"><label for="Local">Local</label>
+                <input type="radio" id="Stream" name="video"><label for="Stream">Stream</label>
+            </div> -->
+            <div class="container"><span style="font-weight: bold; font-size: small;">Sensor Status</span></div>
+            <div class="container"><span id="demo" style="color: white; align-content: center;"></span></div>
+            <div class="container">
+                <!-- <iframe src="http://10.163.91.34:9000/mjpg" width="640" height="480"></iframe> -->
+                <iframe src="https://viewer.millicast.com?streamId=2Mb6tU/ephpicar&play=false&volume=false&fullscreen=false&pip=false&cast=false&liveBadge=false&userCount=false&disableSettings=true" allowfullscreen width="640" height="480"></iframe>
+            </div>
+
+            <div class="container">
+                <table style="margin:auto;">
+                    <tr>
+                        <td><div class="controlButton" onmousedown="fleft()" onmouseup="stop()"><span class="icon fa-solid fa-turn-up" style="rotate: -90deg;"></span></div></td>
+                        <td><div class="controlButton" onmousedown="forward()" onmouseup="stop()"><span class="icon fa-solid fa-up-long"></span></div></td>
+                        <td><div class="controlButton" onmousedown="fright()" onmouseup="stop()"><span class="icon fa-solid fa-turn-down" style="rotate: -90deg;"></span></div></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><div class="controlButton" onmousedown="stop()"><span class="icon fa-solid fa-stop"></span></div></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><div class="controlButton" onmousedown="bleft()" onmouseup="stop()"><span class="icon fa-solid fa-turn-down" style="rotate: 90deg;"></span></div></td>
+                        <td><div class="controlButton" onmousedown="backward()" onmouseup="stop()"><span class="icon fa-solid fa-down-long"></span></div></td>
+                        <td><div class="controlButton" onmousedown="bright()" onmouseup="stop()"><span class="icon fa-solid fa-turn-up" style="rotate: 90deg;"></span></div></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><div class="controlButton" onmousedown="backward()" onmouseup="auto()"><span class="icon fa-solid fa-route"></span></div></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+       </div>
     </body>
 </html>
